@@ -111,7 +111,7 @@ def rank(user_id, scores, k=10, mode='random', diversity_preference=0, seed=1000
     for sub_list in sub_lists:
         titles = [book_idx_titles[str(i)] for i in sub_list]
         fictional = False
-        for word in ['novel']:
+        for word in ['novel', "mysteries"]:
             for title in titles:
                 if word in title.lower():
                     fictional = True
