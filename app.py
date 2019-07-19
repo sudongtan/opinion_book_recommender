@@ -4,6 +4,7 @@ from recommend import load_model, recommend
 app = Flask(__name__)
 model = load_model()
 
+
 @app.route("/", methods=["GET", "POST"])
 def login():
 
@@ -18,8 +19,10 @@ def login():
         k = int(request.form["k"])
         # mode = 'random'
         print(user_id, mode, k, type(k))
-        likes, nlikes = recommend(model, user_id, k, mode)
-    
+        likes, nlikes, _, _, _ = recommend(model, user_id, k, mode)
+        liked_books = "<p>".join(liked_books)
+        nliked_books = "<p>".join(nliked_books)
+
     return f"""
     <!doctype html>
     <title>Get preference-inconsistent book recommendations</title>
@@ -36,8 +39,13 @@ def login():
     </div>
 
     <div>
-    <input type="radio" id="top" name="mode" value="top">
-    <label for="top">top</label>
+    <input type="radio" id="interested_only" name="mode" value="top">
+    <label for="top">interested_only</label>
+    </div>
+
+    <div>
+    <input type="radio" id="topic" name="mode" value="top">
+    <label for="top">topic</label>
     </div>
 
     <p><input type=submit value=recommend>
