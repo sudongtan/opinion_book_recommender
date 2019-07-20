@@ -12,6 +12,7 @@ for DIR in [DATA_DIR, MODEL_DIR, OUTPUT_DIR]:
     if not os.path.exists(DIR):
         os.makedirs(DIR)
 
+# https://github.com/MengtingWan/chainRec
 class chainRec(object):
     
     def __init__(self, n_user, n_item, n_stage, DATA_NAME):

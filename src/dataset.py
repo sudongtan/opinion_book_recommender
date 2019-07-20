@@ -5,6 +5,7 @@ import sys
 
 DATA_DIR = "./data/"
 
+# https://github.com/MengtingWan/chainRec
 class Dataset(object):
     
     def __init__(self, DATA_NAME, n_stage):
