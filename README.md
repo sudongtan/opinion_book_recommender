@@ -17,6 +17,7 @@ The project designs a recommender system that recommends books with diverse opin
 
 ## 2.1 Environment setup
 ### Method 1: 
+It might take 1 - 3 minutes to launch it
 https://mybinder.org/v2/gh/sudongtan/cs6460_summer_2019/master
 ### Method 2:
 ```

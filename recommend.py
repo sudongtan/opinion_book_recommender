@@ -8,6 +8,7 @@ import numpy as np
 from itertools import permutations
 import json
 from collections import Counter
+import unidecode 
 
 MODEL_DIR = "./models/"
 
@@ -138,24 +139,34 @@ def rank(user_id, scores, k=10, mode='random', diversity_preference=0, seed=1000
 
 def recommend(model, user_id, k=10, mode='random', seed=1000, display=True):
     try:
-        user_id = int(user_id)
         k = int(k)
-    except TypeError:
-        raise ValueError(f"Number of books to be recommended 'k' should be an integer, got {type(k)}")
+    except ValueError:
+        pass
+
+    if not isinstance(k, int):
+        print(f"Number of books to be recommended 'k' should be an integer, got {type(k)}")
+        return None
 
     try:
         user_id = int(user_id)
-    except TypeError:
-        raise ValueError(f"The user id should be an integer, got {user_id}")
+    except ValueError:
+        pass
+
+    if not isinstance(user_id, int):
+        print(f"The user id should be an integer, got {user_id}")
+        return None
 
     if k < 5 or k > 50:
-        raise ValueError(f"Number of books to be recommended 'k' should be in [5, 50], got {k}")
+        print(f"Number of books to be recommended 'k' should be in [5, 50], got {k}")
+        return None
 
     if user_id >= 45963:
-        raise ValueError(f"The user id should be in [0, 45962], got {user_id}")
+        print(f"The user id should be in [0, 45962], got {user_id}")
+        return None
 
     if not mode in ['random', 'interested_only', 'topic'] :
-        raise ValueError(f"The mode should be 'random', 'interested_only' or 'topic', got '{mode}'")
+        print(f"The mode should be 'random', 'interested_only' or 'topic', got '{mode}'")
+        return None
 
     scores = predict(model, user_id)
     interest_scores = scores[:, :, 1].reshape(-1)
@@ -190,11 +201,13 @@ def recommend(model, user_id, k=10, mode='random', seed=1000, display=True):
         print('Books you might agree with')
         print()
         for book in liked_books:
+            book = unidecode.unidecode(book)
             print(book)
         print('==========')
         print('Books you might disagree with')
         print()
         for book in nliked_books:
+            book = unidecode.unidecode(book)
             print(book)
 
     return liked_books, nliked_books, len(interested), metric, relevance
