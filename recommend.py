@@ -104,7 +104,7 @@ def rank(user_id, scores, k=10, mode='random', diversity_preference=0, seed=1000
         candidates = list(set(candidates) & set(interested_caididates))
 
     #print('here', candidates)
-    sub_lists = [np.random.choice(candidates, k, replace=False) for _ in range(500)]
+    sub_lists = [np.random.choice(candidates, k, replace=False) for _ in range(200)]
     max_metric = 0
     best_diversity = 0
     best_relevance = 0
@@ -137,8 +137,27 @@ def rank(user_id, scores, k=10, mode='random', diversity_preference=0, seed=1000
 
 
 def recommend(model, user_id, k=10, mode='random', seed=1000, display=True):
-    scores = predict(model, user_id)
+    try:
+        user_id = int(user_id)
+        k = int(k)
+    except TypeError:
+        raise ValueError(f"Number of books to be recommended 'k' should be an integer, got {type(k)}")
 
+    try:
+        user_id = int(user_id)
+    except TypeError:
+        raise ValueError(f"The user id should be an integer, got {user_id}")
+
+    if k < 5 or k > 50:
+        raise ValueError(f"Number of books to be recommended 'k' should be in [5, 50], got {k}")
+
+    if user_id >= 45963:
+        raise ValueError(f"The user id should be in [0, 45962], got {user_id}")
+
+    if not mode in ['random', 'interested_only', 'topic'] :
+        raise ValueError(f"The mode should be 'random', 'interested_only' or 'topic', got '{mode}'")
+
+    scores = predict(model, user_id)
     interest_scores = scores[:, :, 1].reshape(-1)
     opinion_scores = scores[:, :, 2].reshape(-1)
     interests = np.copy(interest_scores)
@@ -158,11 +177,12 @@ def recommend(model, user_id, k=10, mode='random', seed=1000, display=True):
     nliked_books = [book_idx_titles[str(i)] for i in nliked]
 
     if display:
-    
         if mode == 'random':
-            print(f'The system selects 1000 books to you that you might be interested in')
-        if mode == 'top':
-            print(f'The system selects 1000 books to you that you are very likely to be interested in')
+            print(f'The system selects candidate books to that you might be interested in')
+        elif mode == 'interested_only':
+            print(f'The system selects candidate books to that you are very likely to be interested in')
+        elif mode == 'topic':
+            print(f'The system selects candidate books based on your most interested topic')
 
         print(f'The system recommends {k} books to you')
         print()
@@ -176,10 +196,6 @@ def recommend(model, user_id, k=10, mode='random', seed=1000, display=True):
         print()
         for book in nliked_books:
             print(book)
-
-
-        # liked_books = "<p>".join(liked_books)
-        # nliked_books = "<p>".join(nliked_books)
 
     return liked_books, nliked_books, len(interested), metric, relevance
 
