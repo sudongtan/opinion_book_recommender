@@ -61,7 +61,7 @@ pip install -r requirement_dev.txt
 |`notebooks/2data_preprocessing_clearning.ipynb`|raw data required|3 min|
 |`notebooks/3data_preprocessing_dataset.ipynb`|raw data required|20 min|
 |`notebooks/4features_engineering.ipynb`|raw data required, powerful gpus required|20 - 50 min, depending on gpu and internet speed|
-|`notebooks/4features_topics.ipynb`|raw data required|2 min|
+|`notebooks/5features_topics.ipynb`|raw data required|2 min|
 
 
 # Reference
