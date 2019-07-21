@@ -31,7 +31,7 @@ pip install -r requirements.txt
 |`final_project.ipynb`|Demostration of how to use the system to get recommendations. `data/` and `models` folders required.|
 |`analysis_rating.ipynb`|Analysis of the rating models' performance. `results/` folder required. |
 |`analysis_ranking.ipynb`|Analysis of the ranking results. `results/` folder required. Currently the sample size is set to be 10 for demostration purposes.|
-|`app.py`|A simple user interface to get recommendations, run `python app.py` and open the link in the brower|
+|`app.py`|A simple user interface to get recommendations, run `python app.py` and open the link in the brower. This only works if it is run locally (not on binder).|
 
 ## 2.3 Source code
 |File name                |Description|
